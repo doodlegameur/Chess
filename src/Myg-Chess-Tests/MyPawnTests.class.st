@@ -28,9 +28,8 @@ MyPawnTests >> setUp [
 MyPawnTests >> testBlackPawnBlocked [
 
 	 | squares |
-    board := MyChessBoard empty.
-    board at: 'e7' put: (blackPawn := MyPawn black).
-    board at: 'e6' put: (MyPawn white). "Pion blanc bloque la case e6"
+    board at: 'e7' put: (blackPawn).
+    board at: 'e6' put: (whitePawn). "Pion blanc bloque la case e6"
 
     "Le pion noir ne devrait pas pouvoir avancer car il est bloqué"
     squares := blackPawn targetSquares.
@@ -41,8 +40,7 @@ MyPawnTests >> testBlackPawnBlocked [
 MyPawnTests >> testBlackPawnMoves [
 
 	| squares |
-    board := MyChessBoard empty.
-    board at: 'e7' put: (blackPawn := MyPawn black).
+    board at: 'e7' put: (blackPawn).
 
     "Le pion noir devrait pouvoir reculer d'une case"
     squares := blackPawn targetSquares.
@@ -65,9 +63,8 @@ MyPawnTests >> testPawnCannotMoveBackwards [
 MyPawnTests >> testWhitePawnBlocked [
 
 	| squares |
-    board := MyChessBoard empty.
-    board at: 'e2' put: (whitePawn := MyPawn white).
-    board at: 'e3' put: (MyPawn black). "Pion noir bloque la case e3"
+    board at: 'e2' put: (whitePawn).
+    board at: 'e3' put: (blackPawn). "Pion noir bloque la case e3"
 
     "Le pion blanc ne devrait pas pouvoir avancer car il est bloqué"
     squares := whitePawn targetSquares.
@@ -78,8 +75,7 @@ MyPawnTests >> testWhitePawnBlocked [
 MyPawnTests >> testWhitePawnMoves [
 
 	| squares |
-    board := MyChessBoard empty.
-    board at: 'e2' put: (whitePawn := MyPawn white).
+    board at: 'e2' put: (whitePawn).
 
     "Le pion blanc devrait pouvoir avancer d'une case"
     squares := whitePawn targetSquares.
