@@ -3,8 +3,6 @@ Class {
 	#superclass : 'TestCase',
 	#instVars : [
 		'board',
-		'whitepawn',
-		'blackpawn',
 		'state',
 		'whitePawn',
 		'blackPawn'
@@ -34,6 +32,57 @@ MyPawnTests >> testBlackPawnBlocked [
     "Le pion noir ne devrait pas pouvoir avancer car il est bloqué"
     squares := blackPawn targetSquares.
     self assert: squares isEmpty.
+]
+
+{ #category : 'running' }
+MyPawnTests >> testBlackPawnCanCaptureOnLeftDiagonal [
+
+	| squares |
+	board at: 'd2' put: whitePawn.
+	board at: 'e3' put: blackPawn.
+	
+
+	"Le pion noir devrait pouvoir capturer le pion blanc en diagonale"
+	squares := blackPawn targetSquares.
+
+	"Vérification que d2 fait partie des mouvements possibles"
+	self assertCollection: squares includesAll: (#(d2) collect: [:name | board at: name]).
+
+	"Déplacer le pion noir pour capturer le pion blanc"
+	board move: blackPawn to: (board at: 'd2').
+	self assert: (board at: 'd2') contents equals: blackPawn.
+	self assert: (board at: 'e3') contents isNil
+]
+
+{ #category : 'running' }
+MyPawnTests >> testBlackPawnCanCaptureOnRightDiagonal [
+
+	| squares |
+	board at: 'f2' put: whitePawn.
+	board at: 'e3' put: blackPawn.
+	
+
+	"Le pion noir devrait pouvoir capturer le pion blanc en diagonale"
+	squares := blackPawn targetSquares.
+
+	"Vérification que f2 fait partie des mouvements possibles"
+	self assertCollection: squares includesAll: (#(f2) collect: [:name | board at: name]).
+
+	"Déplacer le pion noir pour capturer le pion blanc"
+	board move: blackPawn to: (board at: 'f2').
+	self assert: (board at: 'f2') contents equals: blackPawn.
+	self assert: (board at: 'e3') contents isNil
+]
+
+{ #category : 'running' }
+MyPawnTests >> testBlackPawnCanMoveTwoSquaresOnFirstMove [
+
+	| squares |
+    board at: 'e7' put: blackPawn.
+
+    "Le pion noir devrait pouvoir descendre d'une ou deux cases"
+    squares := blackPawn targetSquares.
+    self assertCollection: squares includesAll: (#(e6 e5) collect: [:name | board at: name]).
 ]
 
 { #category : 'running' }
@@ -69,6 +118,57 @@ MyPawnTests >> testWhitePawnBlocked [
     "Le pion blanc ne devrait pas pouvoir avancer car il est bloqué"
     squares := whitePawn targetSquares.
     self assert: squares isEmpty.
+]
+
+{ #category : 'running' }
+MyPawnTests >> testWhitePawnCanCaptureOnLeftDiagonal [
+
+	| squares |
+	board at: 'e2' put: whitePawn.
+	board at: 'd3' put: blackPawn.
+	
+
+	"Le pion blanc devrait pouvoir capturer le pion noir en diagonale"
+	squares := whitePawn targetSquares.
+
+	"Vérification que d3 fait partie des mouvements possibles"
+	self assertCollection: squares includesAll: (#(d3) collect: [:name | board at: name]).
+
+	"Déplacer le pion blanc pour capturer le pion noir"
+	board move: blackPawn to: (board at: 'd3').
+	self assert: (board at: 'd3') contents equals: whitePawn.
+	self assert: (board at: 'e2') contents isNil
+]
+
+{ #category : 'running' }
+MyPawnTests >> testWhitePawnCanCaptureOnRightDiagonal [
+
+	| squares |
+	board at: 'e2' put: whitePawn.
+	board at: 'f3' put: blackPawn.
+	
+
+	"Le pion blanc devrait pouvoir capturer le pion noir en diagonale"
+	squares := whitePawn targetSquares.
+
+	"Vérification que f3 fait partie des mouvements possibles"
+	self assertCollection: squares includesAll: (#(f3) collect: [:name | board at: name]).
+
+	"Déplacer le pion blanc pour capturer le pion noir"
+	board move: blackPawn to: (board at: 'f3').
+	self assert: (board at: 'f3') contents equals: whitePawn.
+	self assert: (board at: 'e2') contents isNil
+]
+
+{ #category : 'running' }
+MyPawnTests >> testWhitePawnCanMoveTwoSquaresOnFirstMove [
+
+	| squares |
+    board at: 'e2' put: whitePawn.
+
+    "Le pion blanc devrait pouvoir monter d'une ou deux cases"
+    squares := whitePawn targetSquares.
+    self assertCollection: squares includesAll: (#(e3 e4) collect: [:name | board at: name]).
 ]
 
 { #category : 'running' }
