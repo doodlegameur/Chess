@@ -1,6 +1,9 @@
 Class {
 	#name : 'MyPawn',
 	#superclass : 'MyPiece',
+	#instVars : [
+		'isFirstMove'
+	],
 	#category : 'Myg-Chess-Core',
 	#package : 'Myg-Chess-Core'
 }
@@ -9,6 +12,32 @@ Class {
 MyPawn >> id [
 
 	^ 'P'
+]
+
+{ #category : 'accessing' }
+MyPawn >> initialize [
+
+	super initialize.
+   isFirstMove := true
+]
+
+{ #category : 'rendering' }
+MyPawn >> isFirstMove [
+
+	^isFirstMove 
+]
+
+{ #category : 'rendering' }
+MyPawn >> isFirstMove: aBoolean [
+
+	isFirstMove := aBoolean 
+]
+
+{ #category : 'rendering' }
+MyPawn >> moveTo: aSquare [
+
+	super moveTo: aSquare.
+	self isFirstMove: false
 ]
 
 { #category : 'rendering' }
@@ -21,8 +50,19 @@ MyPawn >> renderPieceOn: aSquare [
 MyPawn >> targetSquaresLegal: aBoolean [
 
 	^ (self isWhite
-		   ifTrue: [ { square up } ]
-		   ifFalse: [ { square down } ]) select: [ :s |
-		  s notNil and: [
-			  s hasPiece not or: [ s contents color ~= color ] ] ]
+		   ifTrue: [
+			   isFirstMove
+				   ifFalse: [ { square up } ]
+				   ifTrue: [
+					   {
+						   square up.
+						   square up up } ] ]
+		   ifFalse: [
+			   isFirstMove
+				   ifFalse: [ { square down } ]
+				   ifTrue: [
+					   {
+						   square down.
+						   square down down } ] ]) select: [ :s |
+		  s notNil and: [ s hasPiece not  ] ]
 ]
