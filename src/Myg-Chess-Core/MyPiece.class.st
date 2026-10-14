@@ -164,11 +164,12 @@ MyPiece >> legalTargetSquares [
 { #category : 'path commands' }
 MyPiece >> moveTo: aSquare [
 
-	(self legalTargetSquares includes: aSquare) ifFalse: [ ^ self ].
+	(self legalTargetSquares includes: aSquare) ifFalse: [ ^ false ].
 
 	square emptyContents.
 	square := aSquare.
-	aSquare contents: self
+	aSquare contents: self.
+	^true
 ]
 
 { #category : 'rendering' }

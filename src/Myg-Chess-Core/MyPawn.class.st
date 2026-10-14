@@ -36,8 +36,8 @@ MyPawn >> isFirstMove: aBoolean [
 { #category : 'rendering' }
 MyPawn >> moveTo: aSquare [
 
-	super moveTo: aSquare.
-	self isFirstMove: false
+	(super moveTo: aSquare) ifTrue: [
+	self isFirstMove: false ]
 ]
 
 { #category : 'rendering' }
