@@ -180,6 +180,23 @@ MyPawnTests >> testWhitePawnCanMoveTwoSquaresOnFirstMove [
 ]
 
 { #category : 'running' }
+MyPawnTests >> testWhitePawnCanMoveTwoSquaresOnlyOnFirstMove [
+
+    | squares |
+    board at: 'e2' put: whitePawn.
+
+    "Premier déplacement : deux cases autorisées"
+    self assert: (whitePawn targetSquares includes: (board at: 'e4')).
+
+    game move: whitePawn to: (board at: 'e3').
+
+    "Après un déplacement, le pion ne peut plus avancer de deux cases"
+    squares := whitePawn targetSquares.
+    self assert: (squares includes: (board at: 'e5')) not.
+    self assert: (squares includes: (board at: 'e4')).
+]
+
+{ #category : 'running' }
 MyPawnTests >> testWhitePawnMoves [
 
 	| squares |
