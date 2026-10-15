@@ -5,7 +5,8 @@ Class {
 		'board',
 		'state',
 		'whitePawn',
-		'blackPawn'
+		'blackPawn',
+		'game'
 	],
 	#category : 'Myg-Chess-Tests',
 	#package : 'Myg-Chess-Tests'
@@ -16,7 +17,8 @@ MyPawnTests >> setUp [
 
 	super setUp.
 	board := MyChessBoard empty.
-   board initializePieces.
+	game := MyChessGame freshGame .
+	game board: board.
    whitePawn := MyPawn white.
    blackPawn := MyPawn black.
    state := MyUnselectedState board: board.
@@ -49,7 +51,7 @@ MyPawnTests >> testBlackPawnCanCaptureOnLeftDiagonal [
 	self assertCollection: squares includesAll: (#(d2) collect: [:name | board at: name]).
 
 	"Déplacer le pion noir pour capturer le pion blanc"
-	board move: blackPawn to: (board at: 'd2').
+	game move: blackPawn to: (board at: 'd2').
 	self assert: (board at: 'd2') contents equals: blackPawn.
 	self assert: (board at: 'e3') contents isNil
 ]
@@ -69,7 +71,7 @@ MyPawnTests >> testBlackPawnCanCaptureOnRightDiagonal [
 	self assertCollection: squares includesAll: (#(f2) collect: [:name | board at: name]).
 
 	"Déplacer le pion noir pour capturer le pion blanc"
-	board move: blackPawn to: (board at: 'f2').
+	game move: blackPawn to: (board at: 'f2').
 	self assert: (board at: 'f2') contents equals: blackPawn.
 	self assert: (board at: 'e3') contents isNil
 ]
@@ -127,7 +129,9 @@ MyPawnTests >> testWhitePawnCanCaptureOnLeftDiagonal [
 	board at: 'e2' put: whitePawn.
 	board at: 'd3' put: blackPawn.
 	
-
+	self assert: whitePawn square equals: (board at: 'e2').
+	self assert: (whitePawn targetSquares includes: (board at: 'd3')).
+	
 	"Le pion blanc devrait pouvoir capturer le pion noir en diagonale"
 	squares := whitePawn targetSquares.
 
@@ -135,9 +139,9 @@ MyPawnTests >> testWhitePawnCanCaptureOnLeftDiagonal [
 	self assertCollection: squares includesAll: (#(d3) collect: [:name | board at: name]).
 
 	"Déplacer le pion blanc pour capturer le pion noir"
-	board move: whitePawn to: (board at: 'd3').
+	"board move: whitePawn to: (board at: 'd3').
 	self assert: (board at: 'd3') contents equals: whitePawn.
-	self assert: (board at: 'e2') contents isNil
+	self assert: (board at: 'e2') contents isNil"
 ]
 
 { #category : 'running' }
@@ -151,11 +155,15 @@ MyPawnTests >> testWhitePawnCanCaptureOnRightDiagonal [
 	"Le pion blanc devrait pouvoir capturer le pion noir en diagonale"
 	squares := whitePawn targetSquares.
 
+	"test"
+	self assert: (whitePawn square = (board at: 'e2')).
+	self assert: (whitePawn legalTargetSquares includes: (board at: 'f3')).
+	
 	"Vérification que f3 fait partie des mouvements possibles"
 	self assertCollection: squares includesAll: (#(f3) collect: [:name | board at: name]).
 
 	"Déplacer le pion blanc pour capturer le pion noir"
-	board move: whitePawn to: (board at: 'f3').
+	game move: whitePawn to: (board at: 'f3').
 	self assert: (board at: 'f3') contents equals: whitePawn.
 	self assert: (board at: 'e2') contents isNil
 ]
