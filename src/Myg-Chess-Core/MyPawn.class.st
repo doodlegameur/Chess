@@ -61,12 +61,9 @@ forwardSquare := self isWhite
     ifTrue: [ square up ]
     ifFalse: [ square down ].
 
-doubleForwardSquare := forwardSquare
-    ifNotNil: [
-        self isWhite
+doubleForwardSquare := self isWhite
             ifTrue: [ forwardSquare up ]
-            ifFalse: [ forwardSquare down ]
-    ].
+            ifFalse: [ forwardSquare down ].
 
 attackLeft := self isWhite
     ifTrue: [ square up left]
@@ -79,23 +76,23 @@ attackRight := self isWhite
 legalMoves := OrderedCollection new.
 
 "Déplacement vers l'avant"
-forwardSquare ifNotNil: [
+forwardSquare isOnBoard ifTrue: [
     forwardSquare hasPiece ifFalse: [
         legalMoves add: forwardSquare.
 
         isFirstMove ifTrue: [
-            doubleForwardSquare ifNotNil: [
+            doubleForwardSquare isOnBoard ifTrue: [
                 doubleForwardSquare hasPiece ifFalse: [
                     legalMoves add: doubleForwardSquare ] ] ] ] ].
 
 "Capture en diagonale à gauche"
-attackLeft ifNotNil: [
+attackLeft isOnBoard ifTrue: [
     attackLeft hasPiece ifTrue: [ 
 		(self isEnemyPiece: attackLeft contents) ifTrue: [ 
 			legalMoves add: attackLeft ] ] ].
 
 "Capture en diagonale à droite"
-attackRight ifNotNil: [
+attackRight isOnBoard ifTrue: [
     attackRight hasPiece ifTrue: [ 
 		(self isEnemyPiece: attackRight contents) ifTrue: [
 			legalMoves add: attackRight ] ] ].
