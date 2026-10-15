@@ -66,7 +66,7 @@ MyKing >> isKing [
 MyKing >> opponentPieces [
 
 	^ self board pieces select: [ :e |
-		  e notNil and: [ e color = color negated ] ]
+		  e isPiece and: [ e color = color negated ] ]
 ]
 
 { #category : 'rendering' }
@@ -84,7 +84,7 @@ MyKing >> targetSquaresLegal: aBoolean [
 		                     e attackingSquares ].
 
 	^ self basicTargetSquares select: [ :s |
-		  s notNil and: [
+		  s isOnBoard and: [
 			  (threatenedSquares includes: s) not and: [
 				  s hasPiece not or: [ 
 					"The square has an opponent piece"
