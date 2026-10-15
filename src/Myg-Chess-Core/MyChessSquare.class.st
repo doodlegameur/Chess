@@ -127,7 +127,7 @@ MyChessSquare >> foreground [
 { #category : 'testing' }
 MyChessSquare >> hasPiece [
 	
-	^ contents isNil not
+	^ contents isPiece 
 ]
 
 { #category : 'highlighting' }
@@ -162,7 +162,9 @@ MyChessSquare >> initialize [
 		background: Color white;
 		geometry: BlSquareGeometry new.
 
-	self addEventHandlerOn: BlClickEvent do: [ :e | self click ]
+	self addEventHandlerOn: BlClickEvent do: [ :e | self click ].
+	
+	contents := MyNilPiece new. "Au moins chaque square a une NilPiece pour ne pas avoir de nil"
 ]
 
 { #category : 'accessing' }
