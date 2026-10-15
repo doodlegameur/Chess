@@ -53,7 +53,7 @@ MyPawnTests >> testBlackPawnCanCaptureOnLeftDiagonal [
 	"Déplacer le pion noir pour capturer le pion blanc"
 	game move: blackPawn to: (board at: 'd2').
 	self assert: (board at: 'd2') contents equals: blackPawn.
-	self assert: (board at: 'e3') contents isNil
+	self assert: ((board at: 'e3') contents isKindOf: MyNilPiece)
 ]
 
 { #category : 'running' }
@@ -73,7 +73,7 @@ MyPawnTests >> testBlackPawnCanCaptureOnRightDiagonal [
 	"Déplacer le pion noir pour capturer le pion blanc"
 	game move: blackPawn to: (board at: 'f2').
 	self assert: (board at: 'f2') contents equals: blackPawn.
-	self assert: (board at: 'e3') contents isNil
+	self assert: ((board at: 'e3') contents isKindOf: MyNilPiece)
 ]
 
 { #category : 'running' }
@@ -107,7 +107,7 @@ MyPawnTests >> testPawnCannotMoveBackwards [
 	state := state clickOn: (board at: 'e3').
 
 	self assert: (board at: 'e4') contents equals: whitePawn.
-	self assert: (board at: 'e3') hasPiece not.
+	self assert: ((board at: 'e3') contents isKindOf: MyNilPiece).
 ]
 
 { #category : 'running' }
@@ -139,9 +139,9 @@ MyPawnTests >> testWhitePawnCanCaptureOnLeftDiagonal [
 	self assertCollection: squares includesAll: (#(d3) collect: [:name | board at: name]).
 
 	"Déplacer le pion blanc pour capturer le pion noir"
-	"board move: whitePawn to: (board at: 'd3').
+	game move: whitePawn to: (board at: 'd3').
 	self assert: (board at: 'd3') contents equals: whitePawn.
-	self assert: (board at: 'e2') contents isNil"
+	self assert: ((board at: 'e2') contents isKindOf: MyNilPiece).
 ]
 
 { #category : 'running' }
@@ -165,7 +165,7 @@ MyPawnTests >> testWhitePawnCanCaptureOnRightDiagonal [
 	"Déplacer le pion blanc pour capturer le pion noir"
 	game move: whitePawn to: (board at: 'f3').
 	self assert: (board at: 'f3') contents equals: whitePawn.
-	self assert: (board at: 'e2') contents isNil
+	self assert: ((board at: 'e2') contents isKindOf: MyNilPiece).
 ]
 
 { #category : 'running' }

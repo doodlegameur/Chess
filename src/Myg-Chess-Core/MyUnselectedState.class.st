@@ -33,7 +33,7 @@ MyUnselectedState >> clickOn: aMyChessSquare [
 	"Nothing is selected.
 	Select the chess square"
 	aMyChessSquare select.
-	aMyChessSquare contents hasPiece ifTrue: [
+	aMyChessSquare hasPiece ifTrue: [
 		board highLightTargets: aMyChessSquare contents targetSquares ].
 
 	^ MySelectedState board: board selected: aMyChessSquare

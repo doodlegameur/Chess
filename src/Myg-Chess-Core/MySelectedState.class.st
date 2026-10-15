@@ -35,9 +35,11 @@ MySelectedState >> clickOn: aMyChessSquare [
 	"We should only move if it's legal but..."
 
 	selection unselect.
-	selection contents hasPiece ifTrue: [
+	selection contents isPiece ifTrue: [
 		board unhighLightTargets: selection contents targetSquares.
-		board game move: selection contents to: aMyChessSquare ].
+		
+		(selection contents legalTargetSquares includes: aMyChessSquare)
+			ifTrue: [ board game move: selection contents to: aMyChessSquare ]].
 
 	^ MyUnselectedState board: board
 ]
