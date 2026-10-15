@@ -42,7 +42,7 @@ MyChessSquare >> + aPoint [
 	column := (self column asciiValue + aPoint x) asCharacter asString.
 	file := (self file asciiValue + aPoint y) asCharacter asString.
 
-	^ board at: column , file ifAbsent: [ ^ nil ]
+	^ board at: column , file ifAbsent: [ MyOutOfBoardChessSquare new ]
 ]
 
 { #category : 'accessing' }
@@ -165,6 +165,12 @@ MyChessSquare >> initialize [
 	self addEventHandlerOn: BlClickEvent do: [ :e | self click ].
 	
 	contents := MyNilPiece new. "Au moins chaque square a une NilPiece pour ne pas avoir de nil"
+]
+
+{ #category : 'arithmetic' }
+MyChessSquare >> isOnBoard [ 
+
+	^ true
 ]
 
 { #category : 'accessing' }
