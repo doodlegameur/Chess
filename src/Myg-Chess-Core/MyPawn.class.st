@@ -22,6 +22,12 @@ MyPawn >> initialize [
 ]
 
 { #category : 'rendering' }
+MyPawn >> isEnemyPiece: aPiece [
+
+	^ (aPiece isWhite not and: [ self isWhite ]) or: (aPiece isWhite and: [ self isWhite not ])
+]
+
+{ #category : 'rendering' }
 MyPawn >> isFirstMove [
 
 	^isFirstMove 
@@ -49,20 +55,50 @@ MyPawn >> renderPieceOn: aSquare [
 { #category : 'rendering' }
 MyPawn >> targetSquaresLegal: aBoolean [
 
-	^ (self isWhite
-		   ifTrue: [
-			   isFirstMove
-				   ifFalse: [ { square up } ]
-				   ifTrue: [
-					   {
-						   square up.
-						   (square up hasPiece ifFalse: [ square up up ]) } ] ]
-		   ifFalse: [
-			   isFirstMove
-				   ifFalse: [ { square down } ]
-				   ifTrue: [
-					   {
-						   square down.
-						   (square down hasPiece ifFalse: [ square down down ]) } ] ])
-		  select: [ :s | s notNil and: [ s hasPiece not ] ]
+	| forwardSquare doubleForwardSquare attackLeft attackRight legalMoves |
+
+forwardSquare := self isWhite
+    ifTrue: [ square up ]
+    ifFalse: [ square down ].
+
+doubleForwardSquare := forwardSquare
+    ifNotNil: [
+        self isWhite
+            ifTrue: [ forwardSquare up ]
+            ifFalse: [ forwardSquare down ]
+    ].
+
+attackLeft := self isWhite
+    ifTrue: [ square up left]
+    ifFalse: [ square down left].
+
+attackRight := self isWhite
+    ifTrue: [ square up right]
+    ifFalse: [ square down right].
+
+legalMoves := OrderedCollection new.
+
+"Déplacement vers l'avant"
+forwardSquare ifNotNil: [
+    forwardSquare hasPiece ifFalse: [
+        legalMoves add: forwardSquare.
+
+        isFirstMove ifTrue: [
+            doubleForwardSquare ifNotNil: [
+                doubleForwardSquare hasPiece ifFalse: [
+                    legalMoves add: doubleForwardSquare ] ] ] ] ].
+
+"Capture en diagonale à gauche"
+attackLeft ifNotNil: [
+    attackLeft hasPiece ifTrue: [ 
+		(self isEnemyPiece: attackLeft contents) ifTrue: [ 
+			legalMoves add: attackLeft ] ] ].
+
+"Capture en diagonale à droite"
+attackRight ifNotNil: [
+    attackRight hasPiece ifTrue: [ 
+		(self isEnemyPiece: attackRight contents) ifTrue: [
+			legalMoves add: attackRight ] ] ].
+
+^ legalMoves
 ]

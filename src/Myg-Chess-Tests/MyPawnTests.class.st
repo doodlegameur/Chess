@@ -135,7 +135,7 @@ MyPawnTests >> testWhitePawnCanCaptureOnLeftDiagonal [
 	self assertCollection: squares includesAll: (#(d3) collect: [:name | board at: name]).
 
 	"Déplacer le pion blanc pour capturer le pion noir"
-	board move: blackPawn to: (board at: 'd3').
+	board move: whitePawn to: (board at: 'd3').
 	self assert: (board at: 'd3') contents equals: whitePawn.
 	self assert: (board at: 'e2') contents isNil
 ]
@@ -155,7 +155,7 @@ MyPawnTests >> testWhitePawnCanCaptureOnRightDiagonal [
 	self assertCollection: squares includesAll: (#(f3) collect: [:name | board at: name]).
 
 	"Déplacer le pion blanc pour capturer le pion noir"
-	board move: blackPawn to: (board at: 'f3').
+	board move: whitePawn to: (board at: 'f3').
 	self assert: (board at: 'f3') contents equals: whitePawn.
 	self assert: (board at: 'e2') contents isNil
 ]
